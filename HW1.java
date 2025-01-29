@@ -89,8 +89,14 @@ public class HW1 {
 
             // YOUR CODE GOES HERE
 
+            if (this.head != null){
+                Node cursor = this.head
+                if (cursor.data < ltValue){
+                    removeElement(cursor.data);
+                }      
+            }
             return;
-        }
+        } // method removeElementsLT
 
 
         /*
@@ -99,11 +105,38 @@ public class HW1 {
          */
 
         public void removeElement ( int value ) {
-
             // YOUR CODE GOES HERE
+            Node cursor = this.head;
 
+            /* initial "head" target loop
+            * once the head's data is guaranteed to not be equal to the target value,
+            * this will allow the method to use a second cursor in order to manipulate
+            * different nodes' next pointers
+            */
+            while (cursor != null && head.data == value){
+                head = cursor.next;
+                cursor.next = null;
+                cursor.data = null;
+                cursor = cursor.next;
+            }
+            
+            /* next loop, removing target nodes that aren't the head
+            * first, check if a head node exists, then if a node other than the current head exists
+            * afterwards, run the loop to remove nodes by relinking cursor.next and forwardCursor.next
+            */
+            if (cursor != null && cursor.next != null){
+                Node forwardCursor = cursor.next;
+                // removal loop
+                while (forwardCursor != null){
+                    if (forwardCursor.data == value){
+                        cursor.next = forwardCursor.next;
+                        forwardCursor.next = null;
+                        forwardCursor.data = null;
+                    }   
+                }
+            }
             return;
-        }
+        } //method removeElement
 
 
         /*
