@@ -89,7 +89,12 @@ public class HW1 {
 
             // YOUR CODE GOES HERE
 
-            if (this.head != null) {
+            /*
+            * since all the work of removing nodes has been done in removeElement(),
+            * this method will loop through the linked list to call removeElement() on
+            * any value less than ltValue.
+            */
+            if (this.head != null) { // make sure the list exists
                 Node cursor = this.head;
                 while (cursor != null) {
                     if (cursor.data < ltValue) {
@@ -109,9 +114,9 @@ public class HW1 {
             // YOUR CODE GOES HERE
             Node cursor = this.head;
             /*
-            * first, make sure the head node's data isn't our target value
-            * if so, cursor moves to the 1st non-target node (if possible)
-            * to change which node should be the head.
+            * given a sorted linked list, we first make sure the head node's data isn't our target value. 
+            * if so, cursor moves to the 1st non-target node to change which node should be the head. 
+            * if no non-target node is found, head will point at null
             */
             if (cursor.data == value) {
                 while (cursor != null && cursor.data == value) {
@@ -120,19 +125,18 @@ public class HW1 {
                 this.head = cursor;
             } 
             /* 
-             * if the head is fine, inner-list loop runs
+             * given that the head node isn't our target, cursor will find target (if possible) & re-link
+             * the list with a secondary cursor node (forwardCursor) in this if branch.
              */
             else {
                 if (cursor.next != null) { // check if more than 1 element exists
-                    // runs until cursor.next finds target value or end of list
-                    while (cursor.next != null && cursor.next.data != value) {
+                    while (cursor.next != null && cursor.next.data != value) { // runs until cursor.next finds target value or end of list is reached
                         cursor = cursor.next;
                     }
 
-                    if (cursor.next != null) { // end-of-list check for cursor
+                    if (cursor.next != null) { // check if cursor's reached end of the list
                         Node forwardCursor = cursor.next;
-                        // runs until forwardCursor is at next non-target node or reaches null
-                        while (forwardCursor != null && forwardCursor.data == value) {
+                        while (forwardCursor != null && forwardCursor.data == value) { // runs until forwardCursor is at next non-target node or reaches null
                             forwardCursor = forwardCursor.next;
                         }
                         cursor.next = forwardCursor;
@@ -195,19 +199,19 @@ public class HW1 {
             input = input.toLowerCase().replaceAll("\\s+", "");
             // Your CODE GOES HERE
 
-            // starting from (& including) the middle of input, push characters onto the stack
+            /* starting from (& including) the middle of input, push characters onto the stack */
             for (int i = input.length() / 2; i < input.length(); i++){
                 stack.push(input.charAt(i));
             }
-
-            // compare characters in the 1st half of string to characters popping out of the stack
-            // if characters don't match, return false
+            /* 
+            * compare characters in the 1st half of input to characters popping out of the stack.
+            * if characters don't match, return false. otherwise, input will be a palindrome
+            */
             for (int i = 0; i < input.length() / 2; i++){
                 if (input.charAt(i) != stack.pop()){
                     return false;
                 }
             }
-            
             return true;
         }
 
@@ -232,12 +236,17 @@ public class HW1 {
 
             Stack<Integer> temp = new Stack<>();
             int currentIndex = 0;
-            int index = -1;
+            int index = -1; 
 
+            /* first, push elements off stack onto temp */
             while (!stack.empty()){
                 temp.push(stack.pop());
             }
 
+            /*
+            * now, we can easily increment currentIndex in order to find the 
+            * largest index position of k while elements are pushed back onto stack
+            */
             while (!temp.empty()) {
                 if (temp.peek() == k) {
                     index = currentIndex;
